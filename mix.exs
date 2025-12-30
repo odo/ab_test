@@ -24,6 +24,7 @@ defmodule AbTest.MixProject do
   defp deps do
     [
       {:typed_struct, "~> 0.3"},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
     ]
   end
   
