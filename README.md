@@ -51,25 +51,6 @@ In the second example, nothing is returned since the version is not new enough.
 
 ## Test Evolution
 
-## Conclude with successful default
-If the variant was not successful you have two options:
-
-1. You can delete the whole test and all users will get the default immediately. This will also remove the variant for the users that had it before.
-
-2. You add another definition to the test that sets the ratio to `0.0`. This keeps the users that had the variant assigned untouched.
-
-```
-%{
-  "pink_ui" => %{
-    "definitions" => [
-      %{"ratio" => 0.25, "start_at" => "2025-03-01 00:00:00"},
-      %{"ratio" => 0.00, "start_at" => "2025-03-07 00:00:00"},
-    ],
-    "minimum_version" => "1.2.0"
-  }
-}
-```
-
 ## Conclude with successful variant
 If the variant was successful you have two options:
 
@@ -89,7 +70,24 @@ If the variant was successful you have two options:
 }
 ```
 
+## Conclude with unsuccessful variant
+If the variant was not successful you have two options:
 
+1. You can delete the whole test and all users will get the default immediately. This will also remove the variant for the users that had it before.
+
+2. You add another definition to the test that sets the ratio to `0.0`. This keeps the users that had the variant assigned untouched.
+
+```
+%{
+  "pink_ui" => %{
+    "definitions" => [
+      %{"ratio" => 0.25, "start_at" => "2025-03-01 00:00:00"},
+      %{"ratio" => 0.00, "start_at" => "2025-03-07 00:00:00"},
+    ],
+    "minimum_version" => "1.2.0"
+  }
+}
+```
 ## SQL Version
 
 The underlying functionality can also be implemented in SQL (here PostgreSQL).

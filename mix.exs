@@ -6,6 +6,8 @@ defmodule AbTest.MixProject do
       app: :ab_test,
       version: "0.1.0",
       elixir: "~> 1.18",
+      description: description(),
+      package: package(),
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -22,6 +24,17 @@ defmodule AbTest.MixProject do
   defp deps do
     [
       {:typed_struct, "~> 0.3"},
+    ]
+  end
+  
+  defp description() do
+    "ABtest is an Elixir library to run A/B test for product optimization."
+  end
+
+  defp package() do
+    [
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/odo/ab_test"}
     ]
   end
 end
