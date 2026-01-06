@@ -17,7 +17,7 @@ This library makes a few assumptions:
 
 ## Basic Usage
 
-We start with a test configuration JSON:
+We start with a configuration:
 
 ```
 %{
