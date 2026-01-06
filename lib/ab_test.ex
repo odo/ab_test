@@ -27,6 +27,10 @@ defmodule ABTest do
       end
     end
 
+    @doc """
+    Parse an A/B test configuration from a sting-keyed map
+    into a format that can be used to compute variants.
+    """
     @spec from_json_map(map()) :: [%__MODULE__{}]
     def from_json_map(json_map) when is_map(json_map) do
       json_map
@@ -44,11 +48,15 @@ defmodule ABTest do
     end
   end
 
+  @doc """
+  Returns the list of variants that apply given the data.
+  If a version is provided, it needs to be strictly newer than the `minumum_version` in the configuration.
+  """
   def variants_from_config(configs, uuid, inserted_at, version \\ nil) do
     create_tests_from_config(configs, inserted_at, version)
     |> Enum.reduce([],
       fn %__MODULE__{name: name} = test, acc ->
-        case variant(uuid, test) do
+        case variant?(uuid, test) do
           true  -> [name | acc]
           false -> acc
         end
@@ -90,10 +98,13 @@ defmodule ABTest do
     %__MODULE__{name: name, ratio: ratio}
   end
 
-  def variant(uuid, %__MODULE__{name: ab_test_name, ratio: ratio}) do
+  @doc """
+  Determines if a certain variant applies 
+  """
+  def variant?(uuid, %__MODULE__{name: ab_test_name, ratio: ratio}) do
     test_hash = hash_value(ab_test_name)
     entity_hash = hash_value(uuid)
-    variant(entity_hash, test_hash, ratio)
+    variant?(entity_hash, test_hash, ratio)
   end
 
   # stretch fits  |........................***************..|
@@ -103,7 +114,7 @@ defmodule ABTest do
   #                                             ^ user_hash2 = true
   # . = false (1-ratio)
   # * = true  (ratio)
-  def variant(entity_hash, test_hash, ratio) do
+  def variant?(entity_hash, test_hash, ratio) do
     in_min = test_hash
     in_max = test_hash + (@max_hash * ratio)
     case in_max <= (@max_hash-1) do

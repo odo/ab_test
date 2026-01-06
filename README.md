@@ -12,12 +12,12 @@ This library makes a few assumptions:
 - Test groups are calculated based on a UUID (or any random string)
 - Tests have a start date. If you use the creation date of the user to determine the variant, users never change their test value.
 - Tests have a ratio that determines how often the variant is assigned 
-- Tests can have a minimum version (usually the first version that handles the variant)
+- Tests can have a minimum version which needs to be strictly met (usually the first version that handles the variant)
 - Tests can have multiple definitions with different start dates and ratios
 
 ## Basic Usage
 
-We start with a configuration:
+We start with a configuration (this might come from a file or an environment variable):
 
 ```
 %{

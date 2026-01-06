@@ -11,7 +11,7 @@ defmodule PetAi.ABTestTest do
 
   test "variant gets computed", %{uuid: uuid} do
     ab_test = ABTest.create("the test", 0.5)
-    variant = ABTest.variant(uuid, ab_test)
+    variant = ABTest.variant?(uuid, ab_test)
     assert false == variant
   end
 
@@ -19,23 +19,23 @@ defmodule PetAi.ABTestTest do
     # stretch goes from 10% to 35%
     test_hash = @max_hash * 0.10
     ratio = 0.25
-    assert false == ABTest.variant(0.05 * @max_hash, test_hash, ratio)
-    assert false == ABTest.variant(0.09 * @max_hash, test_hash, ratio)
-    assert true  == ABTest.variant(0.11 * @max_hash, test_hash, ratio)
-    assert true  == ABTest.variant(0.34 * @max_hash, test_hash, ratio)
-    assert false == ABTest.variant(0.36 * @max_hash, test_hash, ratio)
+    assert false == ABTest.variant?(0.05 * @max_hash, test_hash, ratio)
+    assert false == ABTest.variant?(0.09 * @max_hash, test_hash, ratio)
+    assert true  == ABTest.variant?(0.11 * @max_hash, test_hash, ratio)
+    assert true  == ABTest.variant?(0.34 * @max_hash, test_hash, ratio)
+    assert false == ABTest.variant?(0.36 * @max_hash, test_hash, ratio)
   end
 
   test "variant with wrapping stretch" do
     # stretch goes from 80% to 25%
     test_hash = @max_hash * 0.80
     ratio = 0.45
-    assert true ==  ABTest.variant(0.00 * @max_hash, test_hash, ratio)
-    assert true ==  ABTest.variant(0.24 * @max_hash, test_hash, ratio)
-    assert false == ABTest.variant(0.26 * @max_hash, test_hash, ratio)
-    assert false == ABTest.variant(0.79 * @max_hash, test_hash, ratio)
-    assert true  == ABTest.variant(0.81 * @max_hash, test_hash, ratio)
-    assert true  == ABTest.variant(1.00 * @max_hash, test_hash, ratio)
+    assert true ==  ABTest.variant?(0.00 * @max_hash, test_hash, ratio)
+    assert true ==  ABTest.variant?(0.24 * @max_hash, test_hash, ratio)
+    assert false == ABTest.variant?(0.26 * @max_hash, test_hash, ratio)
+    assert false == ABTest.variant?(0.79 * @max_hash, test_hash, ratio)
+    assert true  == ABTest.variant?(0.81 * @max_hash, test_hash, ratio)
+    assert true  == ABTest.variant?(1.00 * @max_hash, test_hash, ratio)
   end
 
   test "create tests from config" do
